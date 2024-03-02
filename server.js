@@ -22,15 +22,23 @@ app.post( '/upload', ( req, res )=>{
 
     let imagename = currentDate.getDate() + currentDate.getTime() + file.name;
 
-    let path = 'public/uploads/' + imagename;
+    let uploadPath = 'public/uploads/' + imagename;
 
-    file.mv(path, (err, results) => {
+    file.mv(uploadPath, (err, results) => {
         if( err ){
             throw err;
         } else {
             res.json('uploads/${imagename}')
         }
     })
+})
+
+app.get("/:blog", (req, res) =>{
+    res.sendFile(path.join(initial_path, "blog.html"));
+})
+
+app.use((req, res ) => {
+    res.json("404");
 })
 
 app.listen("3000", ()=>{

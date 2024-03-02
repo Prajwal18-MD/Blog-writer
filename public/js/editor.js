@@ -13,7 +13,7 @@ bannerImage.addEventListener('change', () => {
 })
 
 uploadInput.addEventListener('change', () =>{
-    uploadImage(uploadInput, "image"); // Corrected variable name
+    uploadImage(uploadInput, "image"); 
 })
 
 const uploadImage = (uploadFile, uploadType) => {
@@ -30,15 +30,47 @@ const uploadImage = (uploadFile, uploadType) => {
             if(uploadType == "image"){
                 addImage(data, file.name);
             }else{
-                bannerPath = `${location.origin}/${data}`; // Corrected string interpolation
-                banner.style.backgroundImage = `url("${bannerPath}")`; // Corrected style setting
+                bannerPath = `${location.origin}/${data}`; 
+                banner.style.backgroundImage = `url("${bannerPath}")`; 
             }
          })
+    }else{
+        alert("upload Image only");
+    
     }
 } 
 
 const addImage = (imagepath, alt) => {
-    let curPos = contentField.selectionStart; // Corrected variable name
-    let textToInsert = `\r![${alt}](${imagepath}]\r`; // Corrected string interpolation
-    contentField.value = contentField.value.slice(0, curPos) + textToInsert + contentField.value.slice(curPos); // Corrected variable name
+    let curPos = contentField.selectionStart; 
+    let textToInsert = `\r![${alt}](${imagepath})\r`; 
+    contentField.value = contentField.value.slice(0, curPos) + textToInsert + contentField.value.slice(curPos); 
 }
+
+let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+publishBtn.addEventListener('click', () =>{
+if(contentField.value.length && blogTitleField.value.lemgth){
+    let letters = 'abcdefghijklmnopqrstuvwxyz';
+    let blogTitle = blogTitleField.valuesplit("-").join("-");
+    let id = '';
+    for(let i=0 ; i<4 ; i++){
+        id += letters[Math.floor(Math.random() * letters.length)];
+    }
+
+     let docName = '${blogTitle}-${id}';
+     let date = new Date();
+
+     db.collection("blogs").doc(docName).set({
+        title: blogTitleField.value,
+        article: articleField.value,
+        bannerImage: bannerPath,
+        publishedAt: '${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}'
+     })
+     .then(()=>{
+        location.href = '/${docName}';
+     })
+     .catch((err) => {
+        console.error(err);
+     })
+   }
+})
