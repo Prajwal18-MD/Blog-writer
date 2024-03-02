@@ -32,6 +32,10 @@ const uploadImage = (uploadFile, uploadType) => {
             }else{
                 bannerPath = `${location.origin}/${data}`; 
                 banner.style.backgroundImage = `url("${bannerPath}")`; 
+
+                if(contentField.value.length && blogTitleField.value.length){
+                    saveBlogToFirestore();
+                }
             }
          })
     }else{
@@ -62,9 +66,10 @@ if(contentField.value.length && blogTitleField.value.lemgth){
 
      db.collection("blogs").doc(docName).set({
         title: blogTitleField.value,
-        article: articleField.value,
+        article: contentField.value,
         bannerImage: bannerPath,
-        publishedAt: '${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}'
+        publishedAt: '${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}',
+        author: auth.currentUser.email.split("@")[0]
      })
      .then(()=>{
         location.href = '/${docName}';
