@@ -61,18 +61,18 @@ if(contentField.value.length && blogTitleField.value.lemgth){
         id += letters[Math.floor(Math.random() * letters.length)];
     }
 
-     let docName = '${blogTitle}-${id}';
+     let docName = `${blogTitle}-${id}`;
      let date = new Date();
 
      db.collection("blogs").doc(docName).set({
         title: blogTitleField.value,
         article: contentField.value,
         bannerImage: bannerPath,
-        publishedAt: '${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}',
+        publishedAt: `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`,
         author: auth.currentUser.email.split("@")[0]
      })
      .then(()=>{
-        location.href = '/${docName}';
+        location.href = `/${docName}`;
      })
      .catch((err) => {
         console.error(err);

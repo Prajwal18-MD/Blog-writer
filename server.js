@@ -28,7 +28,7 @@ app.post( '/upload', ( req, res )=>{
         if( err ){
             throw err;
         } else {
-            res.json('uploads/${imagename}')
+            res.json(`uploads/${imagename}`)
         }
     })
 })
