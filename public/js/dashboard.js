@@ -1,11 +1,19 @@
 let ui = new firebaseui.auth.AuthUI(auth);
 let login = document.querySelector('.login');
 
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        login.style.display = "none";
+    } else{
+        setupLoginButton();
+    }
+})
+
 const setupLoginButton = () =>{
     ui.start("#loginUI", {
         callbacks: {
             signInSuccessWithAuthResult: function(authResult, redirectURL){
-                console.log(authResult);
+                login.style.display = "none";
                 return false;
             }
         },
@@ -13,3 +21,4 @@ const setupLoginButton = () =>{
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID]
     })
 }
+

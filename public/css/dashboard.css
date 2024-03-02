@@ -14,3 +14,31 @@ body{
     z-index: 99;
     background: #fff;
 }
+
+.firebaseui-card-content :hover{
+    background: #000 !important;
+}
+
+.firebaseui-card-content :hover.firebaseui-idp-text{
+    color:#fff !important;
+    transition: .5s;
+}
+
+.heading{
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 60px;
+    text-align: center;
+    position: relative;
+    margin: 100px 0 20px;
+}
+
+.btn.grey{
+    background: #c5c5c5;
+    color: #000;
+    margin: 0 10px;
+}
+
+.btn.danger{
+    background: #f00;
+    color: #fff;
+}
