@@ -54,14 +54,20 @@ let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov",
 
 publishBtn.addEventListener('click', () =>{
 if(contentField.value.length && blogTitleField.value.lemgth){
-    let letters = 'abcdefghijklmnopqrstuvwxyz';
-    let blogTitle = blogTitleField.valuesplit("-").join("-");
-    let id = '';
-    for(let i=0 ; i<4 ; i++){
-        id += letters[Math.floor(Math.random() * letters.length)];
+    let docName;
+    if(blogID[0] == 'editor'){
+        let letters = 'abcdefghijklmnopqrstuvwxyz';
+        let blogTitle = blogTitleField.valuesplit("-").join("-");
+        let id = '';
+        for(let i=0 ; i<4 ; i++){
+            id += letters[Math.floor(Math.random() * letters.length)];
+    }
+        docName = `${blogTitle}-${id}`;
+    }else{
+        docName = decodeURI(blogID[0]);
     }
 
-     let docName = `${blogTitle}-${id}`;
+     
      let date = new Date();
 
      db.collection("blogs").doc(docName).set({
@@ -85,3 +91,22 @@ auth.onAuthStateChanged((user) =>{
         location.replace("/admin");
     }
 })
+
+
+let blogID = location.pathname.split("/");
+blogID.shift();
+
+if(blogID[0] != "editor"){
+    let docRef = db.collection("blogs").doc(decodeURI(blogID[0]));
+    docRef.get().then((doc) => {
+        if(doc.exists){
+            let data = doc.data();
+            bannerPath = data.bannerImage;
+            banner.style.backgroundImage = `url(${bannerPath})`;
+            blogTitleField.value = data.title;
+            contentField.value = data.article;
+        }else{
+          location.replace("/");  
+        }
+    })
+}
