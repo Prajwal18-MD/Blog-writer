@@ -79,3 +79,9 @@ if(contentField.value.length && blogTitleField.value.lemgth){
      })
    }
 })
+
+auth.onAuthStateChanged((user) =>{
+    if(!user){
+        location.replace("/admin");
+    }
+})
